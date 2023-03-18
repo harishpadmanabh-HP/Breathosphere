@@ -60,12 +60,29 @@ class BreathViewState(
     // then from full back to half for exhale
     // With a small delay before each animation
     private suspend fun singleBreathAnimation(inhaleTime: Int, exhaleTime: Int) {
+        var inhaleTimer = inhaleTime
+        var exhaleTimer = exhaleTime
+
+
         //  delay(500L)
         sendMessage("Breathe In")
+        coroutineScope.launch {
+            repeat(inhaleTime){
+                updateTimer(inhaleTimer--.toString())
+                delay(1000)
+            }
+        }
         breathAnimatable.animateTo(FRACTION_FULL, tween(inhaleTime * 1000))
         //   delay(500L)
         sendMessage("Breathe Out")
+        coroutineScope.launch {
+            repeat(exhaleTime){
+                updateTimer(exhaleTimer--.toString())
+                delay(1000L)
+            }
+        }
         breathAnimatable.animateTo(FRACTION_HALF, tween(exhaleTime * 1000))
+
     }
 
     private fun sendMessage(message: String) = coroutineScope.launch {
@@ -73,7 +90,7 @@ class BreathViewState(
     }
 
     private fun updateTimer(time: String) = coroutineScope.launch {
-        _message.send(time)
+        _timer.send(time)
     }
 
     fun setConfig(

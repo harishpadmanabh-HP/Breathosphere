@@ -17,6 +17,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import dev.ridill.breathosphere.breathview.BreathPulseContainer
 import dev.ridill.breathosphere.breathview.BreathView
 import dev.ridill.breathosphere.breathview.rememberBreathViewState
 import dev.ridill.breathosphere.ui.theme.BreathosphereTheme
@@ -29,37 +30,40 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             BreathosphereTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-//                        val breathosphereState = rememberBreathosphereState()
-//                        Breathosphere(breathosphereState = breathosphereState)
 
-                        val breathViewState = rememberBreathViewState()
+                BreathPulseContainer()
 
-                        val message = breathViewState.message.collectAsState(initial = "")
-
-                        BreathView(state = breathViewState)
-
-                        Spacer(modifier = Modifier.height(24.dp))
-
-                        Text(text = message.value)
-
-                        Spacer(modifier = Modifier.height(24.dp))
-
-                        Button(onClick = {
-                            breathViewState.startExercise()
-                        }) {
-                            Text(text = "Start Exercise")
-                        }
-                    }
-                }
+//                Surface(
+//                    modifier = Modifier.fillMaxSize(),
+//                    color = MaterialTheme.colors.background
+//                ) {
+//                    Column(
+//                        modifier = Modifier.fillMaxSize(),
+//                        verticalArrangement = Arrangement.Center,
+//                        horizontalAlignment = Alignment.CenterHorizontally
+//                    ) {
+////                        val breathosphereState = rememberBreathosphereState()
+////                        Breathosphere(breathosphereState = breathosphereState)
+//
+//                        val breathViewState = rememberBreathViewState()
+//
+//                        val message = breathViewState.message.collectAsState(initial = "")
+//
+//                        BreathView(state = breathViewState)
+//
+//                        Spacer(modifier = Modifier.height(24.dp))
+//
+//                        Text(text = message.value)
+//
+//                        Spacer(modifier = Modifier.height(24.dp))
+//
+//                        Button(onClick = {
+//                            breathViewState.startExercise()
+//                        }) {
+//                            Text(text = "Start Exercise")
+//                        }
+//                    }
+//                }
             }
         }
     }

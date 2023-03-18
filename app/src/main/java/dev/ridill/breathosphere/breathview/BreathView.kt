@@ -3,8 +3,11 @@ package dev.ridill.breathosphere.breathview
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
@@ -20,6 +23,7 @@ fun BreathView(
 ) {
     val currentMode by state.currentMode
     val breathCircleFraction by state.breathCircleFraction
+    val timer = state.timer.collectAsState(initial = "")
 
 
     Box(
@@ -47,7 +51,13 @@ fun BreathView(
                         radius * 0.5f
                     else radius * breathCircleFraction
                 )
-            }
-    )
+
+
+            },
+        contentAlignment = Alignment.Center
+    ) {
+        if (currentMode == BreathViewState.Mode.BREATHING)
+            Text(text = timer.value)
+    }
 
 }
