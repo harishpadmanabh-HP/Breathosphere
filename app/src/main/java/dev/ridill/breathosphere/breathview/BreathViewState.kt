@@ -137,7 +137,7 @@ class BreathViewState(
 
         currentMode.value = Mode.IDLE
         sendMessage("You have finished your Exercise")
-        breathAnimatable.animateTo(FRACTION_FULL, tween(exhaleTime.value))
+        breathAnimatable.animateTo(FRACTION_FULL, tween(exhaleTime.value * 1000))
 
 
     }

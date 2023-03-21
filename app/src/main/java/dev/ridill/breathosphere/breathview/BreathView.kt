@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -18,8 +19,9 @@ import androidx.compose.ui.unit.dp
 fun BreathView(
     state: BreathViewState,
     modifier: Modifier = Modifier,
-    circleSize: Dp = 300.dp,
-    color: Color = Color.Gray
+    circleSize: Dp = 200.dp,
+    color: Color = Color.Cyan,
+    timerTextStyle: TextStyle = MaterialTheme.typography.subtitle1.copy(color=Color.White)
 ) {
     val currentMode by state.currentMode
     val breathCircleFraction by state.breathCircleFraction
@@ -51,13 +53,11 @@ fun BreathView(
                         radius * 0.5f
                     else radius * breathCircleFraction
                 )
-
-
             },
         contentAlignment = Alignment.Center
     ) {
         if (currentMode == BreathViewState.Mode.BREATHING)
-            Text(text = timer.value)
+            Text(text = timer.value, style = timerTextStyle)
     }
 
 }
