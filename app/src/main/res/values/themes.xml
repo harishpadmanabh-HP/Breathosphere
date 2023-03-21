@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="Theme.Breathosphere" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:statusBarColor">@color/purple_700</item>
+        <item name="android:windowBackground">#1f1f1f</item>
+        <item name="android:windowDisablePreview">false</item>
     </style>
+
+    <style name="Theme.CustomSplashScreenTheme" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#1f1f1f</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/radio</item>
+        <item name="windowSplashScreenAnimationDuration">4000</item>
+        <item name="postSplashScreenTheme">@style/Theme.Breathosphere</item>
+    </style>
+
+
 </resources>

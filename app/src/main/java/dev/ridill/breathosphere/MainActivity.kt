@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import dev.ridill.breathosphere.breathview.BreathPulseContainer
 import dev.ridill.breathosphere.breathview.BreathView
 import dev.ridill.breathosphere.breathview.rememberBreathViewState
@@ -31,44 +32,11 @@ class MainActivity : ComponentActivity() {
     val viewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         setContent {
             BreathosphereTheme {
                 BreatheAppNavGraph(viewModel = viewModel)
-             //   BreathConfigScreen()
-                //  BreathPulseContainer()
-
-//                Surface(
-//                    modifier = Modifier.fillMaxSize(),
-//                    color = MaterialTheme.colors.background
-//                ) {
-//                    Column(
-//                        modifier = Modifier.fillMaxSize(),
-//                        verticalArrangement = Arrangement.Center,
-//                        horizontalAlignment = Alignment.CenterHorizontally
-//                    ) {
-////                        val breathosphereState = rememberBreathosphereState()
-////                        Breathosphere(breathosphereState = breathosphereState)
-//
-//                        val breathViewState = rememberBreathViewState()
-//
-//                        val message = breathViewState.message.collectAsState(initial = "")
-//
-//                        BreathView(state = breathViewState)
-//
-//                        Spacer(modifier = Modifier.height(24.dp))
-//
-//                        Text(text = message.value)
-//
-//                        Spacer(modifier = Modifier.height(24.dp))
-//
-//                        Button(onClick = {
-//                            breathViewState.startExercise()
-//                        }) {
-//                            Text(text = "Start Exercise")
-//                        }
-//                    }
-//                }
             }
         }
     }

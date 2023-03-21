@@ -110,7 +110,8 @@ fun BreathConfigScreen(
                     defaultValue = exhaleHold.toFloat(),
                 )
                 SliderItem(
-                    title = "No. of Cycles : ",
+                    title = "No. of Breath Cycles : ",
+                    unit = "",
                     onValueChange = {
                         cycles = it
                     },

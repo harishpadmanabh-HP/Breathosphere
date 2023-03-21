@@ -1,6 +1,7 @@
 package dev.ridill.breathosphere.breathview
 
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
@@ -46,6 +47,10 @@ class BreathViewState(
     var exhaleTime = mutableStateOf(4) // seconds
         private set
 
+    var totalDuration = mutableStateOf(
+        (inhaleTime.value+exhaleTime.value) *  breathCount.value
+    )
+
 
 
 
@@ -72,7 +77,7 @@ class BreathViewState(
                 delay(1000)
             }
         }
-        breathAnimatable.animateTo(FRACTION_FULL, tween(inhaleTime * 1000))
+        breathAnimatable.animateTo(FRACTION_FULL, tween(inhaleTime * 1000, easing = LinearEasing))
         //   delay(500L)
         sendMessage("Breathe Out")
         coroutineScope.launch {
@@ -81,7 +86,7 @@ class BreathViewState(
                 delay(1000L)
             }
         }
-        breathAnimatable.animateTo(FRACTION_HALF, tween(exhaleTime * 1000))
+        breathAnimatable.animateTo(FRACTION_HALF, tween(exhaleTime * 1000,easing = LinearEasing))
 
     }
 
