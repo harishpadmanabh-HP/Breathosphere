@@ -32,6 +32,9 @@ class BreathViewState(
     private var _timer = Channel<String>()
     val timer = _timer.receiveAsFlow()
 
+    private var _duaration = Channel<String>()
+    val duration = _duaration.receiveAsFlow()
+
     var currentMode = mutableStateOf(Mode.IDLE)
         private set
 
@@ -48,14 +51,8 @@ class BreathViewState(
         private set
 
     var totalDuration = mutableStateOf(
-        (inhaleTime.value+exhaleTime.value) *  breathCount.value
+        (inhaleTime.value + exhaleTime.value) * breathCount.value
     )
-
-
-
-
-
-
 
 
     private val breathAnimatable = Animatable(FRACTION_FULL)
@@ -72,7 +69,7 @@ class BreathViewState(
         //  delay(500L)
         sendMessage("Breathe In")
         coroutineScope.launch {
-            repeat(inhaleTime){
+            repeat(inhaleTime) {
                 updateTimer(inhaleTimer--.toString())
                 delay(1000)
             }
@@ -81,12 +78,12 @@ class BreathViewState(
         //   delay(500L)
         sendMessage("Breathe Out")
         coroutineScope.launch {
-            repeat(exhaleTime){
+            repeat(exhaleTime) {
                 updateTimer(exhaleTimer--.toString())
                 delay(1000L)
             }
         }
-        breathAnimatable.animateTo(FRACTION_HALF, tween(exhaleTime * 1000,easing = LinearEasing))
+        breathAnimatable.animateTo(FRACTION_HALF, tween(exhaleTime * 1000, easing = LinearEasing))
 
     }
 
@@ -96,6 +93,10 @@ class BreathViewState(
 
     private fun updateTimer(time: String) = coroutineScope.launch {
         _timer.send(time)
+    }
+
+    private fun updateDuration(time: String) = coroutineScope.launch {
+        _duaration.send(time)
     }
 
     fun setConfig(
@@ -114,7 +115,10 @@ class BreathViewState(
     }
 
     fun startExercise(
+        totalTime: Int = (inhaleTime.value + exhaleTime.value) * breathCount.value
     ) = coroutineScope.launch {
+
+        var duration = totalTime
 
         currentMode.value = Mode.RELAXATION
 
@@ -133,6 +137,14 @@ class BreathViewState(
         delay(500L)
         breathAnimatable.animateTo(FRACTION_HALF, tween(relaxationSegment))
         currentMode.value = Mode.BREATHING
+
+        launch {
+            repeat(totalTime){
+                updateDuration(duration--.asHMS())
+                delay(1000L)
+            }
+        }
+
         // Repeat for number of breaths needed
         repeat(breathCount.value) {
             singleBreathAnimation(
@@ -145,6 +157,14 @@ class BreathViewState(
         breathAnimatable.animateTo(FRACTION_FULL, tween(exhaleTime.value * 1000))
 
 
+    }
+
+    private fun Int.asHMS(): String {
+        val hours = this / 3600;
+       val  minutes = (this % 3600) / 60;
+       val  seconds = this % 60;
+
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 
 

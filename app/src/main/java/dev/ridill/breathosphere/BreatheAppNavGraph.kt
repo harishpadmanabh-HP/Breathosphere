@@ -25,8 +25,7 @@ fun BreatheAppNavGraph(
             BreathPulseContainer(
                 surfaceColor = viewModel.breathConfig.surfaceColor,
                 pulseColor = viewModel.breathConfig.pulseColor,
-                inhaleTime = viewModel.breathConfig.inhaleTime,
-                exhaleTime = viewModel.breathConfig.exhaleTime
+                breathConfig = viewModel.breathConfig
             )
         }
     }

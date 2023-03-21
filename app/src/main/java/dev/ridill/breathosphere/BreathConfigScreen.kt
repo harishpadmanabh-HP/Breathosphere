@@ -152,9 +152,9 @@ fun BreathConfigScreen(
         Spacer(modifier = Modifier.height(20.dp))
         Button(
             onClick = {
-               viewModel.updateConfig(
-                   inhaleTime, exhaleTime, inhaleHold, exhaleHold,cycles
-               )
+                viewModel.updateConfig(
+                    inhaleTime, exhaleTime, inhaleHold, exhaleHold, cycles
+                )
                 onNavigate()
             },
             Modifier
