@@ -1,5 +1,6 @@
 package dev.ridill.breathosphere.breathview
 
+import android.util.Log
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateIntAsState
@@ -54,6 +55,9 @@ class BreathViewState(
         (inhaleTime.value + exhaleTime.value) * breathCount.value
     )
 
+    var progress = mutableStateOf(0f)
+    var cyclesCompletes = mutableStateOf(0)
+
 
     private val breathAnimatable = Animatable(FRACTION_FULL)
     val breathCircleFraction = breathAnimatable.asState()
@@ -84,6 +88,10 @@ class BreathViewState(
             }
         }
         breathAnimatable.animateTo(FRACTION_HALF, tween(exhaleTime * 1000, easing = LinearEasing))
+        cyclesCompletes.value++
+        trackBreathingProgress(breathCount.value,cyclesCompletes.value)
+        progress.value = trackBreathingProgress(breathCount.value,cyclesCompletes.value)
+        Log.e("hhp","Progress ${progress.value}")
 
     }
 
@@ -97,6 +105,11 @@ class BreathViewState(
 
     private fun updateDuration(time: String) = coroutineScope.launch {
         _duaration.send(time)
+    }
+
+    fun trackBreathingProgress(totalCycles: Int, currentCycle: Int): Float {
+        val progressPercent = (currentCycle.toFloat() / totalCycles.toFloat()) * 100
+        return progressPercent/100
     }
 
     fun setConfig(
@@ -138,6 +151,7 @@ class BreathViewState(
         breathAnimatable.animateTo(FRACTION_HALF, tween(relaxationSegment))
         currentMode.value = Mode.BREATHING
 
+        //Run total duration Timer parallel to animations
         launch {
             repeat(totalTime){
                 updateDuration(duration--.asHMS())
@@ -154,6 +168,7 @@ class BreathViewState(
 
         currentMode.value = Mode.IDLE
         sendMessage("You have finished your Exercise")
+        updateDuration("")
         breathAnimatable.animateTo(FRACTION_FULL, tween(exhaleTime.value * 1000))
 
 

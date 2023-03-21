@@ -2,6 +2,7 @@ package dev.ridill.breathosphere.breathview
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -56,6 +57,8 @@ fun BreathView(
             },
         contentAlignment = Alignment.Center
     ) {
+        CircularProgressIndicator(progress = state.progress.value,modifier=Modifier.size(circleSize))
+
         if (currentMode == BreathViewState.Mode.BREATHING)
             Text(text = timer.value, style = timerTextStyle)
     }

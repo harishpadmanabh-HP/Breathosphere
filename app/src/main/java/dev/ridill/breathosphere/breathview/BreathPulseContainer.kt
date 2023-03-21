@@ -28,7 +28,7 @@ fun BreathPulseContainer(
 ) {
     val state: BreathViewState = rememberBreathViewState().also {
         it.setConfig(
-            relaxTime = 4,
+            relaxTime = 5,
             cycles = breathConfig.cycle,
             inhale = breathConfig.inhaleTime,
             exhale = breathConfig.exhaleTime
@@ -47,7 +47,7 @@ fun BreathPulseContainer(
         val duration  = state.duration.collectAsState(initial = "")
 
         Text(text = duration.value, style = messageTextStyle)
-
+        Spacer(modifier = Modifier.height(24.dp))
         BreathView(state = state, color = pulseColor)
 
         Spacer(modifier = Modifier.height(24.dp))
