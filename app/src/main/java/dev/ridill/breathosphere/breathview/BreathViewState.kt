@@ -51,9 +51,12 @@ class BreathViewState(
     var exhaleTime = mutableStateOf(4) // seconds
         private set
 
-    var totalDuration = mutableStateOf(
-        (inhaleTime.value + exhaleTime.value) * breathCount.value
-    )
+    var inhaleHoldTime = mutableStateOf(4) // seconds
+        private set
+
+    var exhaleHoldTime = mutableStateOf(4) // seconds
+        private set
+
 
     var progress = mutableStateOf(0f)
     var cyclesCompletes = mutableStateOf(0)
@@ -65,12 +68,17 @@ class BreathViewState(
     // Animate fraction from half to full for inhale
     // then from full back to half for exhale
     // With a small delay before each animation
-    private suspend fun singleBreathAnimation(inhaleTime: Int, exhaleTime: Int) {
+    private suspend fun singleBreathAnimation(
+        inhaleTime: Int,
+        exhaleTime: Int,
+        inhaleHoldTime: Int,
+        exhaleHoldTime: Int
+    ) {
         var inhaleTimer = inhaleTime
         var exhaleTimer = exhaleTime
 
 
-   //       delay(1000L)
+        //       delay(1000L)
         sendMessage("Breathe In")
         coroutineScope.launch {
             repeat(inhaleTime) {
@@ -79,7 +87,8 @@ class BreathViewState(
             }
         }
         breathAnimatable.animateTo(FRACTION_FULL, tween(inhaleTime * 1000, easing = LinearEasing))
-       //    delay(1000L)
+        sendMessage("Hold")
+        delay(inhaleHoldTime * 1000L)
         sendMessage("Breathe Out")
         coroutineScope.launch {
             repeat(exhaleTime) {
@@ -88,10 +97,12 @@ class BreathViewState(
             }
         }
         breathAnimatable.animateTo(FRACTION_HALF, tween(exhaleTime * 1000, easing = LinearEasing))
+        sendMessage("Hold")
+        delay(exhaleTime * 1000L)
         cyclesCompletes.value++
-        trackBreathingProgress(breathCount.value,cyclesCompletes.value)
-        progress.value = trackBreathingProgress(breathCount.value,cyclesCompletes.value)
-        Log.e("hhp","Progress ${progress.value}")
+        trackBreathingProgress(breathCount.value, cyclesCompletes.value)
+        progress.value = trackBreathingProgress(breathCount.value, cyclesCompletes.value)
+        Log.e("hhp", "Progress ${progress.value}")
 
     }
 
@@ -109,14 +120,16 @@ class BreathViewState(
 
     private fun trackBreathingProgress(totalCycles: Int, currentCycle: Int): Float {
         val progressPercent = (currentCycle.toFloat() / totalCycles.toFloat()) * 100
-        return progressPercent/100
+        return progressPercent / 100
     }
 
     fun setConfig(
         relaxTime: Int,
         cycles: Int,
         inhale: Int,
-        exhale: Int
+        exhale: Int,
+        inhaleHoldTime: Int,
+        exhaleHoldTime: Int
     ) {
         this.apply {
             relaxationTime.value = relaxTime
@@ -128,7 +141,7 @@ class BreathViewState(
     }
 
     fun startExercise(
-        totalTime: Int = (inhaleTime.value + exhaleTime.value) * breathCount.value
+        totalTime: Int = (inhaleTime.value + exhaleTime.value + inhaleHoldTime.value + exhaleHoldTime.value) * breathCount.value
     ) = coroutineScope.launch {
 
         var duration = totalTime
@@ -153,7 +166,7 @@ class BreathViewState(
 
         //Run total duration Timer parallel to animations
         launch {
-            repeat(totalTime){
+            repeat(totalTime) {
                 updateDuration(duration--.asHMS())
                 delay(1000L)
             }
@@ -162,7 +175,7 @@ class BreathViewState(
         // Repeat for number of breaths needed
         repeat(breathCount.value) {
             singleBreathAnimation(
-                inhaleTime.value, exhaleTime.value
+                inhaleTime.value, exhaleTime.value, inhaleHoldTime.value, exhaleHoldTime.value
             )
         }
 
@@ -176,8 +189,8 @@ class BreathViewState(
 
     private fun Int.asHMS(): String {
         val hours = this / 3600;
-       val  minutes = (this % 3600) / 60;
-       val  seconds = this % 60;
+        val minutes = (this % 3600) / 60;
+        val seconds = this % 60;
 
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }

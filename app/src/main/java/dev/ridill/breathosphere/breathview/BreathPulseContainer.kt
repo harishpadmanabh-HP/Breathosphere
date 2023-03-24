@@ -31,7 +31,9 @@ fun BreathPulseContainer(
             relaxTime = 5,
             cycles = breathConfig.cycle,
             inhale = breathConfig.inhaleTime,
-            exhale = breathConfig.exhaleTime
+            exhale = breathConfig.exhaleTime,
+            inhaleHoldTime = breathConfig.inhaleHoldTime,
+            exhaleHoldTime = breathConfig.exhaleHoldTime
         )
     }
 
