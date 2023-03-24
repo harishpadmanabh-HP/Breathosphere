@@ -21,7 +21,7 @@ fun BreathPulseContainer(
     surfaceColor: Color = Color(0xff1f1f1f),
     pulseColor: Color = Color.Cyan,
     isTimerEnabled: Boolean = true,
-    timerTextStyle: TextStyle = MaterialTheme.typography.subtitle1,
+    timerTextStyle: TextStyle = MaterialTheme.typography.h4.copy(color = Color.White),
     messageTextStyle: TextStyle = MaterialTheme.typography.h6.copy(color = Color.White),
     breathConfig: BreathConfig = BreathConfig()
 
@@ -46,11 +46,11 @@ fun BreathPulseContainer(
     ) {
         val message = state.message.collectAsState(initial = "")
 
-        val duration  = state.duration.collectAsState(initial = "")
+        val duration = state.duration.collectAsState(initial = "")
 
         Text(text = duration.value, style = messageTextStyle)
         Spacer(modifier = Modifier.height(24.dp))
-        BreathView(state = state, color = pulseColor)
+        BreathView(state = state, color = pulseColor, timerTextStyle = timerTextStyle)
 
         Spacer(modifier = Modifier.height(24.dp))
 
