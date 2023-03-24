@@ -70,7 +70,7 @@ class BreathViewState(
         var exhaleTimer = exhaleTime
 
 
-        //  delay(500L)
+   //       delay(1000L)
         sendMessage("Breathe In")
         coroutineScope.launch {
             repeat(inhaleTime) {
@@ -79,7 +79,7 @@ class BreathViewState(
             }
         }
         breathAnimatable.animateTo(FRACTION_FULL, tween(inhaleTime * 1000, easing = LinearEasing))
-        //   delay(500L)
+       //    delay(1000L)
         sendMessage("Breathe Out")
         coroutineScope.launch {
             repeat(exhaleTime) {
@@ -107,7 +107,7 @@ class BreathViewState(
         _duaration.send(time)
     }
 
-    fun trackBreathingProgress(totalCycles: Int, currentCycle: Int): Float {
+    private fun trackBreathingProgress(totalCycles: Int, currentCycle: Int): Float {
         val progressPercent = (currentCycle.toFloat() / totalCycles.toFloat()) * 100
         return progressPercent/100
     }

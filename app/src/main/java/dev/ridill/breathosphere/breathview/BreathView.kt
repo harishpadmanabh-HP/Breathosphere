@@ -22,7 +22,7 @@ fun BreathView(
     modifier: Modifier = Modifier,
     circleSize: Dp = 200.dp,
     color: Color = Color.Cyan,
-    timerTextStyle: TextStyle = MaterialTheme.typography.subtitle1.copy(color=Color.White)
+    timerTextStyle: TextStyle = MaterialTheme.typography.h4.copy(color = Color.White)
 ) {
     val currentMode by state.currentMode
     val breathCircleFraction by state.breathCircleFraction
@@ -57,7 +57,12 @@ fun BreathView(
             },
         contentAlignment = Alignment.Center
     ) {
-        CircularProgressIndicator(progress = state.progress.value,modifier=Modifier.size(circleSize))
+        CircularProgressIndicator(
+            progress = state.progress.value,
+            modifier = Modifier.size(circleSize),
+            color = Color.Yellow,
+            strokeWidth = 2.dp
+        )
 
         if (currentMode == BreathViewState.Mode.BREATHING)
             Text(text = timer.value, style = timerTextStyle)
