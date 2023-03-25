@@ -5,6 +5,9 @@ import android.media.MediaPlayer
 import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
@@ -102,19 +105,23 @@ fun BreathPulseContainer(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        Button(onClick = {
-            state.startExercise()
-            try {
-                mediaPlayer.start()
-                mediaPlayer.isLooping = true
-            } catch (e: Exception) {
-                e.printStackTrace()
+        AnimatedVisibility(
+            visible = state.currentMode.value == BreathViewState.Mode.IDLE,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            Button(onClick = {
+                state.startExercise()
+                try {
+                    mediaPlayer.start()
+                    mediaPlayer.isLooping = true
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+
+            }) {
+                Text(text = "Start")
             }
-
-        }) {
-            Text(text = "Start Exercise")
         }
-
-
     }
 }

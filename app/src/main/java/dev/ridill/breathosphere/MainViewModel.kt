@@ -3,6 +3,7 @@ package dev.ridill.breathosphere
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 
 class MainViewModel : ViewModel() {
@@ -14,9 +15,11 @@ class MainViewModel : ViewModel() {
         exhaleTime: Int,
         inhaleHold: Int,
         exhaleHold: Int,
-        cycles: Int
+        cycles: Int,
+        pulseColor: Color
     ) {
-        breathConfig = BreathConfig(inhaleTime, exhaleTime, inhaleHold, exhaleHold, cycles)
+        breathConfig =
+            BreathConfig(inhaleTime, exhaleTime, inhaleHold, exhaleHold, cycles, pulseColor)
 
     }
 

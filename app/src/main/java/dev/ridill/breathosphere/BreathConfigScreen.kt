@@ -153,7 +153,7 @@ fun BreathConfigScreen(
         Button(
             onClick = {
                 viewModel.updateConfig(
-                    inhaleTime, exhaleTime, inhaleHold, exhaleHold, cycles
+                    inhaleTime, exhaleTime, inhaleHold, exhaleHold, cycles, color
                 )
                 onNavigate()
             },
