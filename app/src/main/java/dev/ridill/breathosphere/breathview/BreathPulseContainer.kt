@@ -36,6 +36,7 @@ fun BreathPulseContainer(
 ) {
     val context = LocalContext.current
     val state: BreathViewState = rememberBreathViewState().also {
+        Log.e("hhp", "Breath config ${breathConfig.toString()}")
         it.setConfig(
             relaxTime = 5,
             cycles = breathConfig.cycle,
@@ -96,7 +97,9 @@ fun BreathPulseContainer(
     ) {
 
         Text(text = duration.value, style = messageTextStyle)
+
         Spacer(modifier = Modifier.height(24.dp))
+
         BreathView(state = state, color = pulseColor, timerTextStyle = timerTextStyle)
 
         Spacer(modifier = Modifier.height(24.dp))

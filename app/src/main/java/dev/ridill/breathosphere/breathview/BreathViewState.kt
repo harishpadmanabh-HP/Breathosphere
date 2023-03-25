@@ -76,7 +76,7 @@ class BreathViewState(
         var exhaleTimer = exhaleTime
 
 
-        //       delay(1000L)
+
         sendMessage("Breathe In")
         coroutineScope.launch {
             repeat(inhaleTime) {
@@ -98,7 +98,7 @@ class BreathViewState(
         breathAnimatable.animateTo(FRACTION_HALF, tween(exhaleTime * 1000, easing = LinearEasing))
         sendMessage("Hold")
         updateTimer("")
-        delay(exhaleTime * 1000L)
+        delay(exhaleHoldTime * 1000L)
         cyclesCompletes.value++
         trackBreathingProgress(breathCount.value, cyclesCompletes.value)
         progress.value = trackBreathingProgress(breathCount.value, cyclesCompletes.value)

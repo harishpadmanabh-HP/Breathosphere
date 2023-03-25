@@ -60,7 +60,7 @@ fun BreathView(
         CircularProgressIndicator(
             progress = state.progress.value,
             modifier = Modifier.size(circleSize),
-            color = Color.Yellow,
+            color = Color.White,
             strokeWidth = 2.dp
         )
 
