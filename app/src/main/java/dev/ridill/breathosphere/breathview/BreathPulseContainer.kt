@@ -1,6 +1,7 @@
 package dev.ridill.breathosphere.breathview
 
 
+import android.media.MediaPlayer
 import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.widget.Toast
@@ -14,10 +15,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import dev.ridill.breathosphere.BreathConfig
 import dev.ridill.breathosphere.MainViewModel
+import dev.ridill.breathosphere.R
 import java.util.*
 
 @Composable
@@ -57,6 +62,21 @@ fun BreathPulseContainer(
             it.setPitch(1.1f)
         }
     }
+
+    val mediaPlayer = remember {
+        MediaPlayer.create(context, R.raw.audio).also {
+            it.isLooping = true
+        }
+    }
+
+    DisposableEffect(true) {
+        onDispose() {
+            mediaPlayer?.reset()
+            mediaPlayer?.stop()
+            textToSpeech.shutdown()
+        }
+    }
+
     val message = state.message.collectAsState(initial = "")
 
     val duration = state.duration.collectAsState(initial = "")
@@ -88,6 +108,13 @@ fun BreathPulseContainer(
 
         Button(onClick = {
             state.startExercise()
+            try {
+                mediaPlayer.start()
+                mediaPlayer.isLooping = true
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
         }) {
             Text(text = "Start Exercise")
         }
