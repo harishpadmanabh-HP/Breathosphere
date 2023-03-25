@@ -102,8 +102,6 @@ class BreathViewState(
         cyclesCompletes.value++
         trackBreathingProgress(breathCount.value, cyclesCompletes.value)
         progress.value = trackBreathingProgress(breathCount.value, cyclesCompletes.value)
-        Log.e("hhp", "Progress ${progress.value}")
-
     }
 
     private fun sendMessage(message: String) = coroutineScope.launch {
@@ -191,8 +189,7 @@ class BreathViewState(
         sendMessage("You have finished your Exercise")
         updateDuration("")
         breathAnimatable.animateTo(FRACTION_FULL, tween(exhaleTime.value * 1000))
-
-
+        progress.value = 0f
     }
 
     private fun Int.asHMS(): String {
