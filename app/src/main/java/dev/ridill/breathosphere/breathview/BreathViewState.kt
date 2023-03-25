@@ -3,7 +3,6 @@ package dev.ridill.breathosphere.breathview
 import android.util.Log
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -50,10 +49,10 @@ class BreathViewState(
     var exhaleTime = mutableStateOf(4) // seconds
         private set
 
-    var inhaleHoldTime = mutableStateOf(4) // seconds
+    var inhaleHoldTime = mutableStateOf(0) // seconds
         private set
 
-    var exhaleHoldTime = mutableStateOf(4) // seconds
+    var exhaleHoldTime = mutableStateOf(0) // seconds
         private set
 
 
@@ -129,14 +128,16 @@ class BreathViewState(
         cycles: Int,
         inhale: Int,
         exhale: Int,
-        inhaleHoldTime: Int,
-        exhaleHoldTime: Int
+        inhaleHold: Int,
+        exhaleHold: Int
     ) {
         this.apply {
             relaxationTime.value = relaxTime
             breathCount.value = cycles
             inhaleTime.value = inhale
             exhaleTime.value = exhale
+            inhaleHoldTime.value = inhaleHold
+            exhaleHoldTime.value = exhaleHold
         }
 
     }

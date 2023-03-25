@@ -15,13 +15,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
 import dev.ridill.breathosphere.BreathConfig
-import dev.ridill.breathosphere.MainViewModel
 import dev.ridill.breathosphere.R
 import java.util.*
 
@@ -42,8 +38,8 @@ fun BreathPulseContainer(
             cycles = breathConfig.cycle,
             inhale = breathConfig.inhaleTime,
             exhale = breathConfig.exhaleTime,
-            inhaleHoldTime = breathConfig.inhaleHoldTime,
-            exhaleHoldTime = breathConfig.exhaleHoldTime
+            inhaleHold = breathConfig.inhaleHoldTime,
+            exhaleHold = breathConfig.exhaleHoldTime
         )
     }
 
