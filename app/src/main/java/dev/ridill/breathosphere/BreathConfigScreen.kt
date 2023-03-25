@@ -1,5 +1,9 @@
 package dev.ridill.breathosphere
 
+import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
+import android.view.WindowManager
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -14,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -22,7 +27,6 @@ import androidx.compose.ui.window.DialogProperties
 import io.mhssn.colorpicker.ColorPicker
 import io.mhssn.colorpicker.ColorPickerType
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun BreathConfigScreen(
     viewModel: MainViewModel,
@@ -203,7 +207,7 @@ fun SliderItem(
                 value = it
             },
             steps = 20,
-            valueRange = 0f..60f,
+            valueRange = 0f..30f,
             onValueChangeFinished = {
                 onValueChange(value.toInt())
             },
@@ -244,4 +248,23 @@ fun ColorChooser(
 }
 
 
+@Composable
+fun KeepScreenOn() {
+    val context = LocalContext.current
+    DisposableEffect(Unit) {
+        val window = context.findActivity()?.window
+        window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        onDispose {
+            window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
+    }
+}
 
+fun Context.findActivity(): Activity? {
+    var context = this
+    while (context is ContextWrapper) {
+        if (context is Activity) return context
+        context = context.baseContext
+    }
+    return null
+}

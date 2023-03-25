@@ -23,7 +23,7 @@ class BreathViewState(
 ) {
 
     // Modes to denote the phases in entire exercise
-    enum class Mode { IDLE, RELAXATION, BREATHING }
+    enum class Mode { IDLE, RELAXATION, BREATHING, GET_READY }
 
     private var _message = Channel<String>()
     val message = _message.receiveAsFlow()
@@ -148,9 +148,15 @@ class BreathViewState(
 
         var duration = totalTime
 
+        currentMode.value = Mode.GET_READY
+        sendMessage("Relax and get comfortable")
+        delay(6000L)
+
+
+
         currentMode.value = Mode.RELAXATION
 
-        sendMessage("Focus")
+        sendMessage("Focus on your breathing")
 
         // Divide relaxation time into 4 equal parts
         // For the 4 sub portions of the animation

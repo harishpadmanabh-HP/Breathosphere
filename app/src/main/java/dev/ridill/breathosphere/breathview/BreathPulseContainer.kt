@@ -21,6 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import dev.ridill.breathosphere.BreathConfig
+import dev.ridill.breathosphere.KeepScreenOn
 import dev.ridill.breathosphere.R
 import java.util.*
 
@@ -34,9 +35,10 @@ fun BreathPulseContainer(
     breathConfig: BreathConfig = BreathConfig()
 
 ) {
+    KeepScreenOn()
+
     val context = LocalContext.current
     val state: BreathViewState = rememberBreathViewState().also {
-        Log.e("hhp", "Breath config ${breathConfig.toString()}")
         it.setConfig(
             relaxTime = 5,
             cycles = breathConfig.cycle,
