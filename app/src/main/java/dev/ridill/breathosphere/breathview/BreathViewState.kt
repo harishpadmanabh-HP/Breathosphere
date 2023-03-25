@@ -87,6 +87,7 @@ class BreathViewState(
         }
         breathAnimatable.animateTo(FRACTION_FULL, tween(inhaleTime * 1000, easing = LinearEasing))
         sendMessage("Hold")
+        updateTimer("")
         delay(inhaleHoldTime * 1000L)
         sendMessage("Breathe Out")
         coroutineScope.launch {
@@ -97,6 +98,7 @@ class BreathViewState(
         }
         breathAnimatable.animateTo(FRACTION_HALF, tween(exhaleTime * 1000, easing = LinearEasing))
         sendMessage("Hold")
+        updateTimer("")
         delay(exhaleTime * 1000L)
         cyclesCompletes.value++
         trackBreathingProgress(breathCount.value, cyclesCompletes.value)
